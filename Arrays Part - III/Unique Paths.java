@@ -4,7 +4,8 @@ import java.io.*;
 public class Solution {
     public static int uniquePaths(int m, int n) {
         // Write your code here.
-        int dp[][] = new int[m][n]; // Tabulation ! TC: O(MxN) | SC: O(MxN)
+        // Tabulation ! TC: O(MxN) | SC: O(MxN)
+        int dp[][] = new int[m][n]; 
         dp[0][0] = 1;
 
         for (int i = 0; i < m; i++) {
