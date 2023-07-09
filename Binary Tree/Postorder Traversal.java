@@ -20,7 +20,7 @@ import java.io.*;
 */
 
 public class Solution {
-    public static List<Integer> getInOrderTraversal(TreeNode root) {
+    public static List<Integer> getPostOrderTraversal(TreeNode root) {
         // Write your code here.
         // recursive Approach !!
         // List<Integer> in = new LinkedList<Integer>();
@@ -28,28 +28,36 @@ public class Solution {
 
         // inHelper(root, in);
         // in.addAll(inorderTraversal(root.left)); # 1
-        // in.add(root.val); # 1
         // in.addAll(inorderTraversal(root.right)); # 1
+        // in.add(root.val); # 1
         // return in;
 
         // Iterative Approach !!
         List<Integer> trav = new ArrayList<Integer>();
         Stack<TreeNode> pickup = new Stack<TreeNode>();
+
+        if (root == null)
+            return trav;
         TreeNode node = root;
 
-        while (true) {
+        while (node != null || !pickup.isEmpty()) {
             if (node != null) {
                 pickup.push(node);
                 node = node.left;
             } else {
-                if (pickup.isEmpty())
-                    break;
-                node = pickup.pop();
-                trav.add(node.data);
-                node = node.right;
+                TreeNode temp = pickup.peek().right;
+                if (temp == null) {
+                    temp = pickup.pop();
+                    trav.add(temp.data);
+
+                    while (!pickup.isEmpty() && temp == pickup.peek().right) {
+                        temp = pickup.pop();
+                        trav.add(temp.data);
+                    }
+                } else
+                    node = temp;
             }
         }
-
         return trav;
     }
 
@@ -58,7 +66,7 @@ public class Solution {
             return;
 
         inHelper(root.left, in);
-        in.add(root.data);
         inHelper(root.right, in);
+        in.add(root.data);
     }
 }
